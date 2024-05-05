@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration and Login</title>
+    <style type="text/css">
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Registration Form</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <div class="form-container">
+            <h2>Login Form</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username:</label>
+                    <input type="text" id="loginUsername" name="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script> 
+// Registration Form
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get input values
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+
+    // Check if username already exists in localStorage
+    if (localStorage.getItem(username)) {
+        alert('Username already exists!');
+        return;
+    }
+
+    // Store username and password in localStorage
+    localStorage.setItem(username, JSON.stringify({ password: password }));
+    alert('Registration successful!');
+
+    // Redirect to chat home page after successful registration
+    window.location.href = 'chat.html';
+
+    this.reset(); // Reset form
+});
+
+// Login Form
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get input values
+    var username = document.getElementById('loginUsername').value;
+    var password = document.getElementById('loginPassword').value;
+
+    // Check if username exists in localStorage
+    if (!localStorage.getItem(username)) {
+        alert('Username not found!');
+        return;
+    }
+
+    // Get stored password for the username
+    var storedData = JSON.parse(localStorage.getItem(username));
+
+    // Check if the password matches
+    if (password === storedData.password) {
+        alert('Login successful!');
+
+        // Redirect to chat home page after successful login
+        window.location.href = 'chat.html';
+    } else {
+        alert('Incorrect password!');
+    }
+    this.reset(); // Reset form
+});
+
+
+
+
+    </script>
+</body>
+</html>

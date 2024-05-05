@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>login form</title>
+    <style>
+           body {
+
+background: url('wp3719702.jpg');
+background-size: 100% 100%;
+background-repeat: no-repeat;
+background-attachment: fixed;
+
+}
+
+.container {
+background:transparent linear-gradient(12deg,rgba(239, 2, 2, 0.759),rgb(43, 72, 2),rgba(3, 64, 117, 0.759));
+width:520px;
+height: 550px;
+text-align: center;
+align-items: center;
+font-size: 20px;
+border-radius: 15px;
+box-shadow:2px 4px 6px black;
+}
+
+
+
+
+label {
+font-weight: bold;
+font-size: 25px;
+font-family: sans-serif;
+padding: 35px;
+color: white;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+text-shadow: 1px 1px 2px rgb(14, 14, 175);
+}
+
+
+
+button {
+
+width:200px;
+height:50px;
+border: none;
+background: linear-gradient(10deg,rgb(1, 0, 0),rgb(101, 63, 63));
+color: white;
+font-size: 20px;
+box-shadow: 2px 2px 4px rgb(15, 2, 77);
+border-radius: 5px;
+cursor: pointer;
+position: relative;
+top: 12px;
+
+
+}
+
+button:hover {
+background-color: #0056b3;
+}
+#loginUsername{
+width: 350px;
+height: 45px;
+border-radius: 5px;
+border:2px solid blue;
+border-left: none;
+border-top: none;
+border-right: none;
+background: transparent;
+outline: none;
+color: white;
+font-size: 20px;
+}
+#loginPassword{
+width: 350px;
+height: 45px;
+border-radius: 5px;
+border:2px solid blue;
+background: transparent;
+outline: none;
+color: white;
+font-size: 20px;
+border-left: none;
+border-top: none;
+border-right: none;
+}
+
+h2{
+padding: 50px;
+color: white;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+text-shadow: 1px 1px 2px rgb(4, 4, 89);
+animation: ss 0.4s linear forwards;
+
+}
+@keyframes ss {
+
+0%{
+transform: translateY(23px);
+}
+100%{
+transform: translateYS(0);
+}
+
+}
+
+a{
+padding: 24px;
+text-decoration: none;
+color: rgb(7, 205, 227);
+text-shadow: 1px 1px 2px black;
+transition: 1s;
+position: relative;
+top: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <center>
+        <div class="container">
+            <h2>Login Form</h2>
+            <form id="loginForm">
+                    <label for="loginUsername">Username:</label>
+                    <input type="text" id="loginUsername" name="loginUsername" required>
+                    <br>
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
+
+                <button type="submit">Login</button>
+                <div class="ot">
+                    <a href="regstrat.html">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</center>
+<script type="text/javascript">
+	// Login Form
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get input values
+    var username = document.getElementById('loginUsername').value;
+    var password = document.getElementById('loginPassword').value;
+
+    // Check if username exists in localStorage
+    if (!localStorage.getItem(username)) {
+        alert('Username not found!');
+        return;
+    }
+
+    // Get stored password for the username
+    var storedData = JSON.parse(localStorage.getItem(username));
+
+    // Check if the password matches
+    if (password === storedData.password) {
+        alert('Login successful!');
+
+        // Redirect to chat home page after successful login
+        window.location.href = 'chat.html';
+    } else {
+        alert('Incorrect password!');
+    }
+    this.reset(); // Reset form
+});
+
+</script>
+</body>
+</html>

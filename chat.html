@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Chat</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    #messages {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    #messages li {
+        padding: 5px 10px;
+        margin-bottom: 5px;
+        border-radius: 5px;
+    }
+    .message-content {
+        background-color: #f1f1f1;
+    }
+    .message-content.sent {
+        background-color: #e0e0e0;
+    }
+    #activeUsers {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Public Chat</h2>
+        <ul id="messages"></ul>
+        <div id="activeUsers"></div>
+        <div>
+            <input type="text" id="usernameInput" placeholder="Your Name">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to display messages with sender's name
+        function displayMessage(message, sender) {
+            var messagesList = document.getElementById('messages');
+            var li = document.createElement('li');
+            var messageClass = (sender === localStorage.getItem('username')) ? 'sent' : '';
+            li.innerHTML = `<span class="message-content ${messageClass}">${sender}: ${message}</span>`;
+            messagesList.appendChild(li);
+        }
+
+        // Function to display active users
+        function displayActiveUsers() {
+            var activeUsersDiv = document.getElementById('activeUsers');
+            var activeUsers = Object.keys(localStorage);
+            activeUsersDiv.textContent = 'Active Users: ' + activeUsers.join(', ');
+        }
+
+        // Function to send a message
+        function sendMessage() {
+            var input = document.getElementById('chatInput');
+            var message = input.value.trim();
+            var sender = localStorage.getItem('username') || 'Anonymous';
+            if (message !== '') {
+                displayMessage(message, sender);
+                input.value = '';
+
+                // Store message in localStorage
+                var messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+                messages.push({ sender: sender, message: message });
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+            }
+        }
+
+        // Load chat history from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            var messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+            messages.forEach(function(msg) {
+                displayMessage(msg.message, msg.sender);
+            });
+            displayActiveUsers();
+        });
+
+        // Event listener for sending a message
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Prompt user for their name
+        var usernameInput = document.getElementById('usernameInput');
+        usernameInput.addEventListener('blur', function() {
+            localStorage.setItem('username', usernameInput.value.trim());
+        });
+    </script>
+</body>
+</html>
